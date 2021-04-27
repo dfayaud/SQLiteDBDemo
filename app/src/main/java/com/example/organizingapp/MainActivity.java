@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Notebook Added", Toast.LENGTH_SHORT).show();
 
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
+
                 boolean success = dataBaseHelper.addNotebook(notebook);
                 List<Notebook> notebooks = dataBaseHelper.getNotebooks();
                 ArrayAdapter notebookArrayAdapter = new ArrayAdapter<Notebook>(MainActivity.this, android.R.layout.simple_list_item_1, notebooks);

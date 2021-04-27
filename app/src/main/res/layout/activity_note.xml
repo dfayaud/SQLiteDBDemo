@@ -48,11 +48,12 @@
         app:layout_constraintTop_toBottomOf="@+id/noteListView" />
 
     <Button
-        android:id="@+id/viewAllNotesButton"
+        android:id="@+id/calendarButton"
         android:layout_width="92dp"
         android:layout_height="61dp"
         android:layout_marginTop="16dp"
-        android:text="View All"
+        android:onClick="switchCalendarActivity"
+        android:text="Calendar"
         app:layout_constraintEnd_toStartOf="@+id/byDateButton"
         app:layout_constraintStart_toEndOf="@+id/addNoteButton"
         app:layout_constraintTop_toBottomOf="@+id/noteListView" />

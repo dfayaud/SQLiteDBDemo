@@ -2,6 +2,7 @@ package com.example.organizingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class NoteActivity extends AppCompatActivity {
 
-    Button addNoteButton, viewAllNotesButton, byDateButton, byBookButton;
+    Button addNoteButton, calendarButton, byDateButton, byBookButton;
     EditText bookNameEditText, noteTextEditText, dateEditText;
     ListView noteListView;
 
@@ -31,27 +32,25 @@ public class NoteActivity extends AppCompatActivity {
         noteTextEditText = findViewById(R.id.noteTextEditText);
         dateEditText = findViewById(R.id.dateEditText);
         noteListView = findViewById(R.id.noteListView);
-        viewAllNotesButton = findViewById(R.id.viewAllNotesButton);
+        calendarButton = findViewById(R.id.calendarButton);
 
         addNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
-
                 Note note = new Note(-1,
                         dataBaseHelper.notebookNameToNotebookId(bookNameEditText.getText().toString()),
                         noteTextEditText.getText().toString(),
                         dateEditText.getText().toString(),
                         false);
+                boolean success = dataBaseHelper.addNote(note);
 
                 List<Note> notes = dataBaseHelper.getNotes();
                 ArrayAdapter noteArrayAdapter = new ArrayAdapter<Note>(NoteActivity.this, android.R.layout.simple_list_item_1, notes);
                 noteListView.setAdapter(noteArrayAdapter);
                 Toast.makeText(NoteActivity.this, "Note Added", Toast.LENGTH_SHORT).show();
 
-
-                boolean success = dataBaseHelper.addNote(note);
             }
 
         });
@@ -76,16 +75,18 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
 
-        viewAllNotesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        //Substituting for calendar intent
 
-                DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
-                List<Note> notes = dataBaseHelper.getNotes();
-                ArrayAdapter noteArrayAdapter = new ArrayAdapter<Note>(NoteActivity.this, android.R.layout.simple_list_item_1, notes);
-                noteListView.setAdapter(noteArrayAdapter);
-            }
-        });
+//        calendarButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                DataBaseHelper dataBaseHelper = new DataBaseHelper(NoteActivity.this);
+//                List<Note> notes = dataBaseHelper.getNotes();
+//                ArrayAdapter noteArrayAdapter = new ArrayAdapter<Note>(NoteActivity.this, android.R.layout.simple_list_item_1, notes);
+//                noteListView.setAdapter(noteArrayAdapter);
+//            }
+//        });
 
         noteListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -114,5 +115,12 @@ public class NoteActivity extends AppCompatActivity {
                 noteListView.setAdapter(noteArrayAdapter);
             }
         });
+
+
+    }
+    public void switchCalendarActivity(View view){
+        Intent intent  = new Intent(this, MainActivity.class);  // <----- rename "MainActivity" to switch to calendar
+        startActivity(intent);
+
     }
 }
